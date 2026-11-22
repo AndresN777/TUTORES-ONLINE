@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-oswald), "Arial Narrow", sans-serif;
+  --font-display: var(--font-teko), "Arial Narrow", sans-serif;
+
+  --color-ink: #0a1119;
+  --color-ink-soft: #3a414b;
+  --color-muted: #5f6670;
+  --color-field: #eeeeee;
+  --color-line: #e3e5e8;
+  --color-student: #0070e0;
+  --color-student-text: #0062c4;
+  --color-student-tint: #eaf3ff;
+  --color-tutor: #00845f;
+  --color-tutor-text: #00764f;
+  --color-tutor-tint: #e6f4ef;
+  --color-admin-tint: #eef0f2;
+  --color-danger: #a1251b;
+  --color-error: #b42318;
+  --color-success: #0b5a40;
+
+  /* Per-role accent (student blue by default), overridden by the .theme-* classes below. */
+  --color-accent: #0070e0;
+  --color-accent-text: #0062c4;
+  --color-accent-tint: #eaf3ff;
+}
+
+/* Overrides must redefine the tokens themselves: a var() alias declared on :root
+   would be resolved there and inherited as the default blue. */
+.theme-student {
+  --color-accent: #0070e0;
+  --color-accent-text: #0062c4;
+  --color-accent-tint: #eaf3ff;
+}
+
+.theme-tutor {
+  --color-accent: #00845f;
+  --color-accent-text: #00764f;
+  --color-accent-tint: #e6f4ef;
+}
+
+.theme-admin {
+  --color-accent: #0a1119;
+  --color-accent-text: #3a414b;
+  --color-accent-tint: #eef0f2;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/* In the base layer so component utilities (e.g. disabled:opacity-100) can override them. */
+@layer base {
+  :where(a, button, input, select, textarea, summary):focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--color-accent) 55%, white);
+    outline-offset: 2px;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+@utility btn {
+  @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 px-5 text-base tracking-wide transition-colors;
+}
+@utility btn-accent {
+  @apply btn bg-accent text-white hover:brightness-110;
+}
+@utility btn-dark {
+  @apply btn bg-ink text-white hover:bg-ink-soft;
+}
+@utility btn-outline {
+  @apply btn border-2 border-ink bg-white text-ink hover:bg-field;
+}
+@utility btn-danger {
+  @apply btn border-2 border-danger bg-white text-danger hover:bg-red-50;
+}
+@utility field-box {
+  @apply flex flex-col bg-field px-3 pt-2 pb-1 text-[15px] text-muted;
+}
+@utility field-input {
+  @apply w-full border-0 bg-transparent py-1.5 text-lg text-ink outline-none;
+}
+@utility field-error {
+  @apply m-0 text-sm text-error;
+}
+@utility section-title {
+  @apply m-0 text-lg font-normal uppercase;
+}

@@ -1,0 +1,237 @@
+// TutoresOn-Line data model. All DateTime values are stored in UTC.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  TUTOR
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum Sex {
+  FEMALE
+  MALE
+  OTHER
+  UNDISCLOSED
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum Modality {
+  VIRTUAL
+  IN_PERSON
+}
+
+enum BookingStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  CANCELLED
+  COMPLETED
+}
+
+enum ReviewStatus {
+  PUBLISHED
+  HIDDEN
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  role         Role
+  status       UserStatus @default(ACTIVE)
+  firstName    String
+  lastName     String
+  age          Int
+  sex          Sex
+  avatarFile   String?
+  timezone     String     @default("America/Santo_Domingo")
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  sessions        Session[]
+  resetTokens     PasswordResetToken[]
+  tutorProfile    TutorProfile?
+  studentBookings Booking[]            @relation("StudentBookings")
+  tutorBookings   Booking[]            @relation("TutorBookings")
+  reviewsWritten  Review[]             @relation("ReviewAuthor")
+  reviewsReceived Review[]             @relation("ReviewTutor")
+  notifications   Notification[]
+
+  @@index([role, status])
+}
+
+model Session {
+  // SHA-256 of the random token stored in the cookie; the raw token never touches the DB.
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model PasswordResetToken {
+  id        String    @id
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model TutorProfile {
+  userId         String             @id
+  bio            String             @default("")
+  verification   VerificationStatus @default(PENDING)
+  offersVirtual  Boolean            @default(true)
+  offersInPerson Boolean            @default(false)
+  // City/sector only: precise addresses are shared per booking, never on the profile.
+  zone           String?
+  slotMinutes    Int                @default(60)
+  user           User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  subjects     TutorSubject[]
+  levels       TutorLevel[]
+  availability AvailabilitySlot[]
+  exceptions   AvailabilityException[]
+
+  @@index([verification])
+}
+
+model Subject {
+  id       String         @id @default(cuid())
+  slug     String         @unique
+  name     String         @unique
+  active   Boolean        @default(true)
+  tutors   TutorSubject[]
+  bookings Booking[]
+}
+
+model Level {
+  id       String       @id @default(cuid())
+  name     String       @unique
+  position Int          @default(0)
+  active   Boolean      @default(true)
+  tutors   TutorLevel[]
+}
+
+model TutorSubject {
+  tutorId   String
+  subjectId String
+  tutor     TutorProfile @relation(fields: [tutorId], references: [userId], onDelete: Cascade)
+  subject   Subject      @relation(fields: [subjectId], references: [id])
+
+  @@id([tutorId, subjectId])
+  @@index([subjectId])
+}
+
+model TutorLevel {
+  tutorId String
+  levelId String
+  tutor   TutorProfile @relation(fields: [tutorId], references: [userId], onDelete: Cascade)
+  level   Level        @relation(fields: [levelId], references: [id])
+
+  @@id([tutorId, levelId])
+  @@index([levelId])
+}
+
+model AvailabilitySlot {
+  id          String       @id @default(cuid())
+  tutorId     String
+  // 0 = Monday … 6 = Sunday, in the tutor's timezone.
+  weekday     Int
+  // Minutes from local midnight in the tutor's timezone.
+  startMinute Int
+  tutor       TutorProfile @relation(fields: [tutorId], references: [userId], onDelete: Cascade)
+
+  @@unique([tutorId, weekday, startMinute])
+}
+
+model AvailabilityException {
+  id      String       @id @default(cuid())
+  tutorId String
+  // Local calendar date (YYYY-MM-DD) in the tutor's timezone.
+  date    String
+  tutor   TutorProfile @relation(fields: [tutorId], references: [userId], onDelete: Cascade)
+
+  @@unique([tutorId, date])
+}
+
+model Booking {
+  id           String        @id @default(cuid())
+  studentId    String
+  tutorId      String
+  subjectId    String
+  startAt      DateTime
+  endAt        DateTime
+  modality     Modality
+  status       BookingStatus @default(PENDING)
+  studentNote  String?
+  // External meeting link (Meet, Zoom, Teams…). The call itself never runs inside the app.
+  meetingUrl   String?
+  meetingPlace String?
+  cancelledBy  String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  student User    @relation("StudentBookings", fields: [studentId], references: [id])
+  tutor   User    @relation("TutorBookings", fields: [tutorId], references: [id])
+  subject Subject @relation(fields: [subjectId], references: [id])
+  review  Review?
+
+  @@index([tutorId, startAt])
+  @@index([studentId, startAt])
+  @@index([status])
+}
+
+model Review {
+  id           String       @id @default(cuid())
+  bookingId    String       @unique
+  studentId    String
+  tutorId      String
+  rating       Int
+  comment      String?
+  status       ReviewStatus @default(PUBLISHED)
+  reportReason String?
+  reportedAt   DateTime?
+  createdAt    DateTime     @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  student User    @relation("ReviewAuthor", fields: [studentId], references: [id])
+  tutor   User    @relation("ReviewTutor", fields: [tutorId], references: [id])
+
+  @@index([tutorId, status])
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  message   String
+  link      String?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt])
+}

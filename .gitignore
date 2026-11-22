@@ -1,0 +1,59 @@
+# ── Dependencias ─────────────────────────────────────────────
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# ── Next.js / build ──────────────────────────────────────────
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# ── Variables de entorno (nunca subir secretos) ──────────────
+.env*
+!.env.example
+
+# ── Base de datos SQLite local (dev y pruebas) ───────────────
+/prisma/*.db
+/prisma/*.db-journal
+/prisma/*.db-wal
+/prisma/*.db-shm
+
+# ── Archivos subidos por usuarios (fotos de perfil) ──────────
+/storage/
+
+# ── Pruebas y cobertura ──────────────────────────────────────
+/coverage
+/test-results/
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ── Herramientas locales del editor / agentes ────────────────
+.claude/settings.local.json
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# ── Sistema operativo ────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Certificados y despliegue ────────────────────────────────
+*.pem
+.vercel
+
+.agents/
+.codegraph/
+.claude/

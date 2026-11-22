@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual de usuario · TutoresOn-Line</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&family=Teko:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a1119; --ink-soft: #3a414b; --muted: #5f6670; --line: #e3e5e8; --field: #f4f5f6;
+    --blue: #0070e0; --blue-tint: #eaf3ff; --green: #00845f; --green-tint: #e6f4ef; --admin-tint: #eef0f2;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #fff; color: var(--ink); font: 300 17px/1.6 Oswald, "Arial Narrow", Arial, sans-serif; }
+  a { color: var(--blue); }
+  a:focus-visible { outline: 3px solid #7ab8ff; outline-offset: 2px; }
+  h1, h2, h3 { font-weight: 500; line-height: 1.15; }
+  .display { font-family: Teko, "Arial Narrow", sans-serif; font-weight: 600; letter-spacing: .5px; }
+  header.cover { background: var(--ink); color: #fff; padding: 56px 24px 48px; }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  .cover h1 { margin: 0; font-size: clamp(56px, 9vw, 96px); line-height: .9; }
+  .cover p { margin: 16px 0 0; max-width: 680px; color: #dce3ea; font-size: 19px; }
+  .cover .meta { margin-top: 24px; font-size: 15px; color: #9aa6b2; }
+  .layout { display: flex; flex-wrap: wrap; gap: 48px; padding: 40px 24px 80px; }
+  nav.toc { flex: 1 1 220px; max-width: 260px; position: sticky; top: 16px; align-self: flex-start; }
+  nav.toc h2 { font-size: 15px; letter-spacing: 1px; color: var(--muted); margin: 0 0 8px; }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; }
+  nav.toc li { margin: 0; }
+  nav.toc a { display: block; padding: 6px 10px; text-decoration: none; color: var(--ink); border-left: 4px solid transparent; }
+  nav.toc a:hover { background: var(--field); border-left-color: var(--blue); }
+  nav.toc .sub a { padding-left: 24px; font-size: 15px; color: var(--ink-soft); }
+  main { flex: 999 1 560px; min-width: 0; }
+  section { padding-top: 12px; margin-bottom: 56px; }
+  section > h2 { font-size: 42px; margin: 0 0 8px; }
+  h3 { font-size: 24px; margin: 36px 0 8px; }
+  .role { display: inline-block; font-size: 14px; padding: 2px 10px; letter-spacing: .5px; margin-bottom: 8px; }
+  .role.student { background: var(--blue-tint); color: #0056b3; }
+  .role.tutor { background: var(--green-tint); color: #0b5a40; }
+  .role.admin { background: var(--admin-tint); color: var(--ink-soft); }
+  .student-h { color: var(--blue); } .tutor-h { color: var(--green); }
+  ol.steps { padding-left: 22px; } ol.steps li { margin: 4px 0; }
+  figure { margin: 20px 0 28px; }
+  .shot { display: block; width: 100%; padding: 0; border: 1px solid var(--line); background: none; cursor: zoom-in; }
+  .shot:focus-visible { outline: 3px solid #7ab8ff; outline-offset: 2px; }
+  dialog.viewer { max-width: 96vw; max-height: 96vh; padding: 0; border: 0; background: transparent; }
+  dialog.viewer::backdrop { background: rgba(10,17,25,.85); }
+  dialog.viewer img { display: block; max-width: 96vw; max-height: 88vh; }
+  dialog.viewer button { margin-top: 8px; font: inherit; font-size: 16px; min-height: 44px; padding: 0 18px; border: 0; background: #fff; color: var(--ink); cursor: pointer; }
+  figure img { display: block; width: 100%; height: auto; }
+  figcaption { font-size: 15px; color: var(--muted); margin-top: 8px; }
+  .note { border: 2px solid var(--line); padding: 12px 16px; margin: 16px 0; background: var(--field); }
+  .note strong { font-weight: 500; }
+  .note.info { border-color: var(--blue); background: var(--blue-tint); }
+  .note.ok { border-color: var(--green); background: var(--green-tint); }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 16px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--ink); color: #fff; font-weight: 400; }
+  .table-scroll { overflow-x: auto; }
+  dl.faq dt { font-weight: 500; margin-top: 16px; }
+  dl.faq dd { margin: 4px 0 0; }
+  footer { border-top: 1px solid var(--line); padding: 24px; color: var(--muted); font-size: 15px; }
+  @media (max-width: 720px) { nav.toc { position: static; max-width: none; } section > h2 { font-size: 34px; } }
+  @media print { nav.toc { display: none; } header.cover { padding: 24px; } figure { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<header class="cover">
+  <div class="wrap">
+    <h1 class="display">TUTORES ON-LINE<br>MANUAL DE USUARIO</h1>
+    <p>Cómo usar la plataforma para encontrar tutores, reservar tutorías, gestionar solicitudes y disponibilidad, calificar sesiones y administrar el sistema.</p>
+    <div class="meta">Versión 1.0 · noviembre de 2026 · Las capturas provienen de la aplicación funcionando con los datos de demostración.</div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" aria-label="Contenido">
+    <h2>CONTENIDO</h2>
+    <ol>
+      <li><a href="#intro">1. Introducción</a></li>
+      <li><a href="#acceso">2. Acceso a la cuenta</a></li>
+      <li><a href="#estudiante">3. Estudiante</a></li>
+      <li class="sub"><a href="#e-inicio">Inicio</a></li>
+      <li class="sub"><a href="#e-buscar">Buscar tutores</a></li>
+      <li class="sub"><a href="#e-reservar">Reservar una tutoría</a></li>
+      <li class="sub"><a href="#e-tutorias">Mis tutorías</a></li>
+      <li class="sub"><a href="#e-resena">Calificar</a></li>
+      <li class="sub"><a href="#e-perfil">Perfil</a></li>
+      <li><a href="#profesor">4. Profesor</a></li>
+      <li class="sub"><a href="#p-inicio">Inicio y solicitudes</a></li>
+      <li class="sub"><a href="#p-tutorias">Mis tutorías</a></li>
+      <li class="sub"><a href="#p-disponibilidad">Disponibilidad</a></li>
+      <li class="sub"><a href="#p-perfil">Perfil y reputación</a></li>
+      <li><a href="#admin">5. Administrador</a></li>
+      <li><a href="#notificaciones">6. Notificaciones</a></li>
+      <li><a href="#reglas">7. Reglas importantes</a></li>
+      <li><a href="#faq">8. Preguntas frecuentes</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="intro" aria-labelledby="intro-h">
+      <h2 id="intro-h" class="display">1. INTRODUCCIÓN</h2>
+      <p>TutoresOn-Line conecta estudiantes con profesores calificados. Hay tres tipos de cuenta, cada una con su propio panel y color:</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Rol</th><th scope="col">Color</th><th scope="col">Qué puede hacer</th></tr></thead>
+          <tbody>
+            <tr><td>Estudiante</td><td>Azul</td><td>Buscar tutores, ver perfiles y reseñas, solicitar tutorías, cancelarlas, abrir el enlace de la reunión y calificar sesiones completadas.</td></tr>
+            <tr><td>Profesor</td><td>Verde</td><td>Publicar su disponibilidad semanal, aceptar o rechazar solicitudes, compartir el enlace de la reunión o el punto de encuentro, cerrar tutorías y gestionar su perfil docente.</td></tr>
+            <tr><td>Administrador</td><td>Negro</td><td>Verificar profesores nuevos, suspender o reactivar cuentas, mantener el catálogo de materias y niveles y moderar reseñas.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note info"><strong>Videollamadas:</strong> las clases virtuales no se realizan dentro de TutoresOn-Line. El profesor usa su propia herramienta (Google Meet, Zoom, Teams…) y la aplicación solo guarda y muestra el enlace de esa reunión.</div>
+    </section>
+
+    <section id="acceso" aria-labelledby="acceso-h">
+      <h2 id="acceso-h" class="display">2. ACCESO A LA CUENTA</h2>
+      <h3>Iniciar sesión</h3>
+      <ol class="steps">
+        <li>Abre la aplicación; si no tienes sesión, verás la pantalla <em>Bienvenido</em>.</li>
+        <li>Escribe tu correo y tu contraseña. El ícono del ojo muestra u oculta la contraseña.</li>
+        <li>Pulsa <strong>INICIAR SESIÓN</strong>. Entrarás directamente al panel de tu rol.</li>
+      </ol>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/01-login.jpg" alt="Pantalla de inicio de sesión con campos de correo y contraseña, y panel oscuro de bienvenida" loading="lazy"></button>
+        <figcaption>Figura 1. Inicio de sesión.</figcaption>
+      </figure>
+      <p>Si el correo o la contraseña no coinciden, verás el mensaje <em>“Correo o contraseña incorrectos”</em>. Por seguridad no se indica cuál de los dos falló, y tras 5 intentos fallidos se debe esperar unos minutos.</p>
+
+      <h3>Crear una cuenta</h3>
+      <ol class="steps">
+        <li>Pulsa la pestaña <strong>Registro</strong>.</li>
+        <li>Elige si te registras como <strong>Estudiante</strong> o <strong>Profesor</strong>.</li>
+        <li>Completa nombres, apellidos, e-mail, contraseña (mínimo 8 caracteres con letras y números), edad y sexo. La foto de perfil es opcional (PNG, JPG o WebP de hasta 2 MB).</li>
+        <li>Pulsa <strong>REGISTRARSE</strong>. Los errores aparecen en rojo bajo cada campo.</li>
+      </ol>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/02-register.jpg" alt="Formulario de registro con el rol Profesor seleccionado y un error de edad" loading="lazy"></button>
+        <figcaption>Figura 2. Registro como profesor: la edad mínima de un profesor es 18 años.</figcaption>
+      </figure>
+      <div class="note ok"><strong>Profesores nuevos:</strong> tu perfil queda <em>en revisión</em>. No aparecerás en la búsqueda hasta que un administrador lo apruebe. Completa tu descripción y tus materias en <a href="#p-perfil">Perfil</a> para que pueda aprobarse.</div>
+
+      <h3>Recuperar el acceso</h3>
+      <ol class="steps">
+        <li>En el inicio de sesión pulsa <strong>¿Olvidaste tu contraseña?</strong></li>
+        <li>Escribe el correo de tu cuenta y pulsa <strong>ENVIAR ENLACE</strong>.</li>
+        <li>Abre el enlace recibido (válido durante 30 minutos) y elige una contraseña nueva. Al cambiarla se cierran todas tus sesiones abiertas.</li>
+      </ol>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/03-forgot-password.jpg" alt="Confirmación de solicitud de recuperación de contraseña" loading="lazy"></button>
+        <figcaption>Figura 3. El mensaje es el mismo exista o no la cuenta, para proteger la privacidad de los usuarios.</figcaption>
+      </figure>
+      <p>Para salir, usa <strong>Cerrar sesión</strong> al final del menú lateral.</p>
+    </section>
+
+    <section id="estudiante" aria-labelledby="est-h">
+      <span class="role student">ESTUDIANTE</span>
+      <h2 id="est-h" class="display student-h">3. GUÍA DEL ESTUDIANTE</h2>
+      <p>El menú lateral tiene cuatro secciones: <strong>Inicio</strong>, <strong>Buscar tutores</strong>, <strong>Mis tutorías</strong> y <strong>Perfil</strong>.</p>
+
+      <h3 id="e-inicio">Inicio</h3>
+      <ul>
+        <li><strong>Próxima tutoría:</strong> materia, profesor, fecha y hora de tu siguiente sesión confirmada. <em>Ver detalles y enlace de la reunión</em> te lleva a Mis tutorías.</li>
+        <li><strong>Podría interesarte:</strong> profesores recomendados según las materias que ya estudias y su reputación.</li>
+        <li><strong>Solicitudes:</strong> los contadores <em>Pendientes</em> y <em>Declinadas</em> también son filtros: púlsalos para ver solo esas solicitudes en la tabla y <em>Ver todas</em> para quitar el filtro. El nombre del profesor abre su perfil.</li>
+      </ul>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/04-student-home.jpg" alt="Inicio del estudiante con próxima tutoría, recomendaciones y tabla de solicitudes" loading="lazy"></button>
+        <figcaption>Figura 4. Inicio del estudiante.</figcaption>
+      </figure>
+
+      <h3 id="e-buscar">Buscar tutores</h3>
+      <p>Los filtros se aplican en cuanto los cambias:</p>
+      <ul>
+        <li><strong>Nombre</strong>, <strong>Materia</strong> (puedes marcar varias), <strong>Puntuación mínima</strong>, <strong>Modalidad</strong> (virtual o presencial; en presencial aparece el filtro de <strong>Zona</strong>), <strong>Nivel educativo</strong> y <strong>Disponible el día</strong>.</li>
+        <li><strong>Ordenar por</strong> mejor puntuación o nombre. Los resultados se muestran de 6 en 6 con <em>Anterior</em> / <em>Siguiente</em>.</li>
+        <li><strong>Limpiar filtros</strong> vuelve a mostrar todos los profesores.</li>
+      </ul>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/06-search.jpg" alt="Búsqueda de tutores con filtros a la izquierda y tarjetas de profesores" loading="lazy"></button>
+        <figcaption>Figura 5. Cada tarjeta muestra materias, puntuación, número de reseñas, modalidad y niveles. <em>ver perfil</em> abre el perfil completo.</figcaption>
+      </figure>
+
+      <h3 id="e-reservar">Reservar una tutoría</h3>
+      <ol class="steps">
+        <li>En el perfil del profesor revisa su descripción, materias, niveles y reseñas.</li>
+        <li>En <strong>Solicitar tutoría</strong> elige la materia y la modalidad.</li>
+        <li>Usa <strong>‹ ›</strong> para cambiar de semana (hasta 4 semanas). Los horarios tachados ya están ocupados o son demasiado próximos (se pide al menos 1 hora de anticipación).</li>
+        <li>Selecciona un horario, escribe un mensaje opcional y pulsa <strong>ENVIAR SOLICITUD</strong>.</li>
+      </ol>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/07-booking-form.jpg" alt="Formulario de reserva con un horario seleccionado y un mensaje para el profesor" loading="lazy"></button>
+        <figcaption>Figura 6. Horario seleccionado (azul) y horario ocupado (tachado).</figcaption>
+      </figure>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/08-booking-sent.jpg" alt="Confirmación de solicitud enviada en estado pendiente" loading="lazy"></button>
+        <figcaption>Figura 7. La solicitud queda <em>Pendiente</em> hasta que el profesor responda.</figcaption>
+      </figure>
+      <div class="note">No puedes tener dos solicitudes o tutorías en el mismo horario. Si lo intentas verás <em>“Ya tienes una tutoría o solicitud en ese horario”</em>.</div>
+
+      <h3 id="e-tutorias">Mis tutorías</h3>
+      <ul>
+        <li>Pestañas <strong>Próximas</strong> (aceptadas), <strong>Pendientes</strong> e <strong>Historial</strong> (completadas, canceladas y declinadas).</li>
+        <li>Los botones de <strong>ORDENAR</strong> ordenan por fecha ascendente o descendente.</li>
+        <li>La flecha de cada fila abre el detalle:
+          <ul>
+            <li>Tutoría virtual aceptada: <strong>enlace externo de la reunión</strong> (se abre en otra pestaña) y botón <strong>Copiar enlace</strong>.</li>
+            <li>Tutoría presencial aceptada: <strong>punto de encuentro</strong>.</li>
+            <li><strong>Cancelar tutoría</strong> (con confirmación) mientras no haya comenzado.</li>
+          </ul>
+        </li>
+      </ul>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/09-student-bookings.jpg" alt="Mis tutorías con el detalle de una tutoría virtual que muestra el enlace de la reunión" loading="lazy"></button>
+        <figcaption>Figura 8. Detalle de una tutoría virtual con el enlace de la reunión.</figcaption>
+      </figure>
+
+      <h3 id="e-resena">Calificar una tutoría</h3>
+      <p>Cuando el profesor marca la tutoría como completada, en <em>Historial</em> aparece <strong>Califica esta tutoría</strong>: elige de 1 a 5 estrellas, añade un comentario opcional y pulsa <strong>Enviar reseña</strong>. Solo se puede calificar una vez.</p>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/10-review.jpg" alt="Formulario de calificación con cuatro estrellas y un comentario" loading="lazy"></button>
+        <figcaption>Figura 9. Calificación de una tutoría completada.</figcaption>
+      </figure>
+
+      <h3 id="e-perfil">Perfil</h3>
+      <p>Edita nombres, apellidos, correo, sexo y edad. Para cambiar la contraseña escribe una nueva; si dejas el campo vacío se conserva la actual. <strong>Editar imagen</strong> sube tu foto. <strong>CANCELAR</strong> descarta los cambios y <strong>GUARDAR</strong> los valida y guarda.</p>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/11-student-profile.jpg" alt="Perfil del estudiante con un error de validación en la edad" loading="lazy"></button>
+        <figcaption>Figura 10. Los errores se marcan bajo cada campo antes de guardar.</figcaption>
+      </figure>
+    </section>
+
+    <section id="profesor" aria-labelledby="prof-h">
+      <span class="role tutor">PROFESOR</span>
+      <h2 id="prof-h" class="display tutor-h">4. GUÍA DEL PROFESOR</h2>
+      <p>El menú lateral tiene <strong>Inicio</strong>, <strong>Mis tutorías</strong>, <strong>Disponibilidad</strong> y <strong>Perfil</strong>.</p>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/22-new-tutor.jpg" alt="Inicio de un profesor recién registrado con el aviso de perfil en revisión" loading="lazy"></button>
+        <figcaption>Figura 11. Un profesor recién registrado ve el aviso de revisión y el enlace para completar su perfil.</figcaption>
+      </figure>
+
+      <h3 id="p-inicio">Inicio y solicitudes</h3>
+      <ul>
+        <li><strong>Próxima tutoría</strong> confirmada.</li>
+        <li><strong>Solicitudes nuevas:</strong> las dos más próximas; <em>ver solicitud</em> abre su detalle.</li>
+        <li><strong>Solicitudes pendientes:</strong> tabla completa; pulsa el nombre del estudiante para ver fecha, modalidad y mensaje.</li>
+      </ul>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/12-tutor-home.jpg" alt="Inicio del profesor en verde con próxima tutoría y solicitudes" loading="lazy"></button>
+        <figcaption>Figura 12. Inicio del profesor.</figcaption>
+      </figure>
+      <p>Para responder:</p>
+      <ol class="steps">
+        <li><strong>Virtual:</strong> pega el enlace de tu reunión (debe empezar con <code>https://</code>). <strong>Presencial:</strong> escribe el punto de encuentro; solo lo verá ese estudiante.</li>
+        <li>Pulsa <strong>ACEPTAR</strong> o <strong>RECHAZAR</strong>. El estudiante recibe una notificación.</li>
+      </ol>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/13-tutor-request.jpg" alt="Detalle de una solicitud presencial con el punto de encuentro escrito" loading="lazy"></button>
+        <figcaption>Figura 13. Respuesta a una solicitud presencial.</figcaption>
+      </figure>
+      <div class="note ok"><strong>Solicitudes que compiten:</strong> si varios estudiantes piden el mismo horario, al aceptar una las demás se declinan automáticamente y se avisa a esos estudiantes. Si intentas aceptar algo que choca con una tutoría ya aceptada, verás un aviso de <em>conflicto de horario</em>.</div>
+
+      <h3 id="p-tutorias">Mis tutorías</h3>
+      <ul>
+        <li><strong>Próximas:</strong> puedes cambiar el enlace de la reunión o el punto de encuentro (<em>Guardar</em>), abrir la reunión o <em>Cancelar tutoría</em>.</li>
+        <li><strong>Por cerrar:</strong> tutorías aceptadas cuya hora ya pasó. Pulsa <strong>Marcar como completada</strong> para que el estudiante pueda calificarla.</li>
+        <li><strong>Historial:</strong> completadas, canceladas y declinadas, con la reseña recibida.</li>
+      </ul>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/14-tutor-bookings.jpg" alt="Pestaña Por cerrar con el botón Marcar como completada" loading="lazy"></button>
+        <figcaption>Figura 14. Cierre de una tutoría ya realizada.</figcaption>
+      </figure>
+
+      <h3 id="p-disponibilidad">Disponibilidad</h3>
+      <ol class="steps">
+        <li>Elige tu <strong>zona horaria</strong> y la <strong>duración de cada tutoría</strong> (60, 90 o 120 minutos).</li>
+        <li>Pulsa las celdas de la cuadrícula semanal para marcarlas como <em>Disponible</em> (verde) o quitarlas. Las celdas negras <em>Reservado</em> tienen tutorías aceptadas y no se pueden cambiar.</li>
+        <li>En <strong>Excepciones</strong> agrega los días en que no darás tutorías (feriados, viajes) y quítalos con ×.</li>
+        <li>Pulsa <strong>GUARDAR</strong>; <strong>DESCARTAR</strong> deshace los cambios no guardados.</li>
+      </ol>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/15-availability.jpg" alt="Cuadrícula semanal de disponibilidad con bloques disponibles y reservados" loading="lazy"></button>
+        <figcaption>Figura 15. Cuadrícula semanal: verde disponible, negro reservado.</figcaption>
+      </figure>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/16-availability-saved.jpg" alt="Excepciones y confirmación de disponibilidad guardada" loading="lazy"></button>
+        <figcaption>Figura 16. Excepciones y confirmación de guardado.</figcaption>
+      </figure>
+
+      <h3 id="p-perfil">Perfil y reputación</h3>
+      <ul>
+        <li><strong>Datos personales</strong> e imagen, igual que el estudiante.</li>
+        <li><strong>Perfil docente:</strong> descripción (30 a 500 caracteres), materias, niveles y modalidad. Si ofreces presencial, indica tu zona (solo la ciudad o sector es pública). La etiqueta superior muestra el estado de verificación.</li>
+        <li><strong>Reputación:</strong> promedio calculado automáticamente con las reseñas publicadas. Puedes <em>Reportar reseña</em> si incumple las normas; un administrador la revisará.</li>
+      </ul>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/17-tutor-profile.jpg" alt="Perfil del profesor con datos personales y perfil docente verificado" loading="lazy"></button>
+        <figcaption>Figura 17. Perfil del profesor.</figcaption>
+      </figure>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/18-tutor-reputation.jpg" alt="Materias, niveles, modalidad y lista de reseñas recibidas con opción de reportar" loading="lazy"></button>
+        <figcaption>Figura 18. Materias, modalidad y reseñas recibidas.</figcaption>
+      </figure>
+    </section>
+
+    <section id="admin" aria-labelledby="admin-h">
+      <span class="role admin">ADMINISTRADOR</span>
+      <h2 id="admin-h" class="display">5. GUÍA DEL ADMINISTRADOR</h2>
+      <p>Las cuentas de administración no se crean desde el registro público. El menú tiene <strong>Usuarios</strong>, <strong>Materias</strong> y <strong>Reseñas</strong>.</p>
+
+      <h3>Usuarios y verificación de profesores</h3>
+      <ul>
+        <li>Indicadores de estudiantes, profesores, cuentas suspendidas y perfiles por verificar.</li>
+        <li><strong>Tutores por verificar:</strong> revisa materias, niveles, modalidad y descripción, y pulsa <strong>Aprobar perfil</strong> o <strong>Rechazar</strong>. Un perfil incompleto no se puede aprobar.</li>
+        <li><strong>Todos los usuarios:</strong> busca por nombre o correo y filtra por rol o estado. <strong>Suspender</strong> (con confirmación) cierra todas las sesiones del usuario y le impide entrar; <strong>Reactivar</strong> lo revierte.</li>
+      </ul>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/19-admin-users.jpg" alt="Panel de usuarios con indicadores, un tutor por verificar y la tabla de usuarios" loading="lazy"></button>
+        <figcaption>Figura 19. Usuarios y verificación.</figcaption>
+      </figure>
+
+      <h3>Materias y niveles</h3>
+      <p>Agrega materias nuevas (no se permiten duplicados, aunque cambien tildes o mayúsculas) y activa o desactiva materias y niveles. Una materia desactivada desaparece de filtros y perfiles, pero el historial de tutorías se conserva.</p>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/20-admin-subjects.jpg" alt="Catálogo de materias con número de profesores y niveles educativos" loading="lazy"></button>
+        <figcaption>Figura 20. Catálogo de materias y niveles.</figcaption>
+      </figure>
+
+      <h3>Moderación de reseñas</h3>
+      <p>Pestañas <strong>Reportadas</strong>, <strong>Publicadas</strong> y <strong>Ocultas</strong>. Puedes <strong>Ocultar reseña</strong> (deja de contar en el promedio), <strong>Descartar reporte</strong> o <strong>Volver a publicar</strong>. El administrador nunca modifica la puntuación.</p>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/21-admin-reviews.jpg" alt="Reseñas reportadas por profesores con botones de moderación" loading="lazy"></button>
+        <figcaption>Figura 21. Reseñas reportadas.</figcaption>
+      </figure>
+    </section>
+
+    <section id="notificaciones" aria-labelledby="notif-h">
+      <h2 id="notif-h" class="display">6. NOTIFICACIONES</h2>
+      <p>La campana junto al logotipo muestra cuántas notificaciones no has leído. Púlsala para abrir la lista: cada aviso enlaza a la pantalla correspondiente; <em>Marcar leída</em> o <em>Marcar todas como leídas</em> actualizan el contador.</p>
+      <figure>
+        <button type="button" class="shot" aria-label="Ampliar captura"><img src="docs/manual/img/05-notifications.jpg" alt="Panel de notificaciones abierto con avisos sin leer" loading="lazy"></button>
+        <figcaption>Figura 22. Panel de notificaciones.</figcaption>
+      </figure>
+      <p>Recibes avisos por: nuevas solicitudes, aceptaciones, rechazos, cancelaciones, cambios de enlace o punto de encuentro, tutorías completadas, nuevas reseñas y el resultado de la verificación de tu perfil.</p>
+    </section>
+
+    <section id="reglas" aria-labelledby="reglas-h">
+      <h2 id="reglas-h" class="display">7. REGLAS IMPORTANTES</h2>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th scope="col">Tema</th><th scope="col">Regla</th></tr></thead>
+          <tbody>
+            <tr><td>Anticipación</td><td>Una tutoría se solicita al menos 1 hora antes y como máximo 4 semanas adelante.</td></tr>
+            <tr><td>Estados</td><td>Pendiente → Aceptada → Completada; Pendiente → Declinada; Pendiente o Aceptada → Cancelada.</td></tr>
+            <tr><td>Cancelación</td><td>Estudiante o profesor pueden cancelar en cualquier momento antes del inicio; se notifica a la otra parte.</td></tr>
+            <tr><td>Doble reserva</td><td>Un bloque solo puede tener una tutoría aceptada; las solicitudes que compiten se declinan al aceptar una.</td></tr>
+            <tr><td>Reseñas</td><td>Una por tutoría completada, de 1 a 5 estrellas, solo por el estudiante de esa tutoría.</td></tr>
+            <tr><td>Privacidad</td><td>El perfil público no muestra correo ni datos de contacto; el punto de encuentro presencial solo lo ve el estudiante de esa tutoría.</td></tr>
+            <tr><td>Horarios</td><td>La disponibilidad se define en la zona horaria del profesor y se muestra a cada usuario en la suya.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-h">
+      <h2 id="faq-h" class="display">8. PREGUNTAS FRECUENTES</h2>
+      <dl class="faq">
+        <dt>¿Por qué no encuentro a un profesor que ya se registró?</dt>
+        <dd>Su perfil puede estar pendiente de verificación, o su cuenta puede estar suspendida. Solo los profesores aprobados aparecen en la búsqueda.</dd>
+        <dt>¿Dónde está la videollamada?</dt>
+        <dd>En la herramienta del profesor. Abre el enlace desde <em>Mis tutorías</em> cuando la tutoría esté aceptada.</dd>
+        <dt>Todos los horarios aparecen tachados.</dt>
+        <dd>La semana ya pasó o el profesor no tiene bloques libres. Usa la flecha › para ver las semanas siguientes.</dd>
+        <dt>No puedo calificar una tutoría.</dt>
+        <dd>Solo se califican tutorías marcadas como completadas por el profesor, y una sola vez.</dd>
+        <dt>Mi cuenta dice que está suspendida.</dt>
+        <dd>Un administrador la suspendió. Contacta al equipo de soporte de la plataforma.</dd>
+      </dl>
+    </section>
+  </main>
+</div>
+<footer><div class="wrap">TutoresOn-Line · Manual de usuario v1.0. Para instalación y datos de prueba consulta <a href="README.md">README.md</a>.</div></footer>
+<dialog class="viewer" aria-label="Captura ampliada"><img alt=""><form method="dialog"><button>Cerrar</button></form></dialog>
+<script>
+  // Click a screenshot to view it at full size; Esc or "Cerrar" closes it.
+  const viewer = document.querySelector("dialog.viewer");
+  document.querySelectorAll(".shot").forEach((b) => b.addEventListener("click", () => {
+    const img = b.querySelector("img");
+    viewer.querySelector("img").src = img.src;
+    viewer.querySelector("img").alt = img.alt;
+    viewer.showModal();
+  }));
+  viewer.addEventListener("click", (e) => { if (e.target === viewer) viewer.close(); });
+</script>
+</body>
+</html>
